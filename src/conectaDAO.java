@@ -25,7 +25,7 @@ public class conectaDAO {
             conn = DriverManager.getConnection("jdbc:mysql://localhost/LeiloesTDSat?user=root&password=root");
             
         } catch (SQLException erro){
-            JOptionPane.showMessageDialog(null, "Erro ConectaDAO" + erro.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ConectaDAO: " + erro.getMessage());
         }
         return conn;
     }

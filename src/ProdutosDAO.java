@@ -46,9 +46,41 @@ public class ProdutosDAO {
         }
         
     }
-
+    
+    //Método responsável por fazer um SELECT no banco e mostrar na tela os dados cadastrados na tabela do banco
     public ArrayList<ProdutosDTO> listarProdutos() {
-
+        // Limpa a lista antes de buscar, evitando dados duplicados
+        listagem.clear();
+        
+        try {
+            conn = new conectaDAO().connectDB(); //Abre a conexão com o banco
+            
+            String sql = "SELECT id, nome, valor, status FROM produtos"; //Comando sql que busca todos os campos de todos os produtos cadastrados
+            
+            prep = conn.prepareStatement(sql); //Prepara o comando
+            resultset = prep.executeQuery(); //executeQuery() é usado para SELECT (diferente do executeUpdate do INSERT), e o resultado fica guardado no resultset
+            
+            // Percorre cada linha retornada pelo banco
+            // resultset.next() avança para a próxima linha e retorna false quando acabar
+            while (resultset.next() ) {
+                
+                ProdutosDTO produto = new ProdutosDTO(); // Para cada linha, cria um DTO e preenche com os dados
+                
+                // getInt() e getString() leem o valor da coluna pelo nome
+                produto.setId(resultset.getInt("id") );
+                produto.setNome(resultset.getString("nome") );
+                produto.setValor(resultset.getInt("valor") );
+                produto.setStatus(resultset.getString("status") );
+                
+                // Adiciona o produto preenchido na lista
+                listagem.add(produto);
+            }
+                
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar: " + erro.getMessage() );
+        }
+        
+        // Retorna a lista completa para quem chamou o método
         return listagem;
     }
 
