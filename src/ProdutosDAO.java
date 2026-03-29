@@ -27,7 +27,7 @@ public class ProdutosDAO {
             //Abre a conexão usando o conectaDAO
             conn = new conectaDAO().connectDB();
             //Define o comando SQL
-            String sql = "INSERT INTO produtos (nome, valor, status) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO produtos (nome, valor, status) VALUES (?, ?, ?)";
             //// Prepara o comando SQL para execução
             prep = conn.prepareStatement(sql);
             
@@ -36,6 +36,9 @@ public class ProdutosDAO {
             prep.setString(3, "disponível");
             //Executa o INSERT no banco de dados
             prep.executeUpdate();
+            
+            //Mensagem de sucesso caso produto seja cadastrado
+            JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!");
             
             
         } catch (SQLException erro) {
