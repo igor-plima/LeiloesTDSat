@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -137,11 +138,21 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
+        // Lê o id digitado no campo de texto
         String id = txtIdProduto.getText();
         
-        ProdutosDAO produtosdao = new ProdutosDAO();
+        //Valida se o campo não esta vazio
+        if (id.isEmpty() ) {
+            JOptionPane.showMessageDialog(null, "Digite o ID do produto!");
+            return;
+        }
         
-        //produtosdao.venderProduto(Integer.parseInt(id));
+        // Cria o DAO e chama o método venderProduto()
+        // Integer.parseInt() converte o texto digitado para número
+        ProdutosDAO produtosdao = new ProdutosDAO();
+        produtosdao.venderProduto(Integer.parseInt(id));
+        
+        // Atualiza a tabela após vender
         listarProdutos();
     }//GEN-LAST:event_btnVenderActionPerformed
 
