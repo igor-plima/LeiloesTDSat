@@ -1,3 +1,7 @@
+
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -8,12 +12,16 @@
  * @author IgorP
  */
 public class vendasVIEW extends javax.swing.JFrame {
+    
+    
 
     /**
      * Creates new form vendasVIEW
      */
     public vendasVIEW() {
         initComponents();
+        listarVendidos();
+        
     }
 
     /**
@@ -30,7 +38,7 @@ public class vendasVIEW extends javax.swing.JFrame {
         tblVendidos = new javax.swing.JTable();
         btnVoltar = new javax.swing.JToggleButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Lucida Fax", 0, 18)); // NOI18N
         jLabel1.setText("Lista de Produtos Vendidos");
@@ -49,6 +57,11 @@ public class vendasVIEW extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblVendidos);
 
         btnVoltar.setText("Voltar");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVoltarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -79,7 +92,13 @@ public class vendasVIEW extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        // Fecha a tela de vendas e volta para a tela anterior
+        this.dispose();
+    }//GEN-LAST:event_btnVoltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -114,6 +133,33 @@ public class vendasVIEW extends javax.swing.JFrame {
                 new vendasVIEW().setVisible(true);
             }
         });
+    }
+    
+    public void listarVendidos() {
+        try {
+            ProdutosDAO dao = new ProdutosDAO();
+            
+            // Pega o modelo da tabela para poder adicionar linhas
+            DefaultTableModel model = (DefaultTableModel) tblVendidos.getModel();
+            // Limpa as linhas antigas antes de carregar
+            model.setNumRows(0);
+            
+            // Busca a lista de produtos vendidos no banco
+            ArrayList<ProdutosDTO> listagem = dao.listarProdutosVendidos();
+            
+            // Para cada produto vendido, adiciona uma linha na tabela
+            for (int i = 0; i < listagem.size(); i++) {
+                //Para cada produto, addRow() adiciona uma nova linha na tabela com os 4 valores — cada valor vai para sua coluna correspondente
+                model.addRow(new Object[] {
+                    listagem.get(i).getId(),
+                    listagem.get(i).getNome(),
+                    listagem.get(i).getValor(),
+                    listagem.get(i).getStatus()
+                });
+            }
+        } catch (Exception e) {
+             javax.swing.JOptionPane.showMessageDialog(null, "Erro ao listar vendidos: " + e.getMessage());
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
