@@ -74,7 +74,7 @@ public class ProdutosDAO {
                 produto.setId(resultset.getInt("id"));
                 // Lê o valor da coluna "nome" da linha atual (retorna texto)
                 produto.setNome(resultset.getString("nome"));
-                 // Lê o valor da coluna "valor" da linha atual (retorna número inteiro)
+                // Lê o valor da coluna "valor" da linha atual (retorna número inteiro)
                 produto.setValor(resultset.getInt("valor"));
                 // Lê o valor da coluna "status" da linha atual (retorna texto)
                 produto.setStatus(resultset.getString("status"));
@@ -114,6 +114,55 @@ public class ProdutosDAO {
         } catch (SQLException erro) {
             JOptionPane.showMessageDialog(null, "Erro ao vender: " + erro.getMessage());
         }
+    }
+
+    // Método responsável por mostrar apenas o produtos com status "Vendido" no banco
+    // Funciona igual ao listarProdutos(), mas com um WHERE no SELECT filtrando somente os vendidos.
+    public ArrayList<ProdutosDTO> listarProdutosVendidos() {
+
+        // Lista separada para não misturar com a listagem geral
+        ArrayList<ProdutosDTO> listaVendidos = new ArrayList<>();
+
+        try {
+            // Abrindo a conexão com o banco
+            conn = new conectaDAO().connectDB();
+
+            // comando sql SELECT filtrando apenas os vendidos
+            String sql = "SELECT id, nome, valor, status FROM produtos WHERE status = 'Vendido'";
+
+            // prepara o comando sql
+            prep = conn.prepareStatement(sql);
+
+            // executeQuery() é usado para SELECT (diferente do executeUpdate do INSERT)
+            // O resultado fica guardado no resultset
+            resultset = prep.executeQuery();
+
+            // Para cada linha retornada, cria um DTO e adiciona na lista
+            // resultset.next() avança para a próxima linha e retorna false quando acabar
+            while (resultset.next()) {
+                // Cria um DTO vazio a cada volta — um "envelope" novo para cada produt
+                ProdutosDTO produto = new ProdutosDTO();
+
+                // Lê o valor da coluna "id" da linha atual (retorna número inteiro)
+                produto.setId(resultset.getInt("id"));
+                // Lê o valor da coluna "nome" da linha atual (retorna texto)
+                produto.setNome(resultset.getString("nome"));
+                // Lê o valor da coluna "valor" da linha atual (retorna número inteiro)
+                produto.setValor(resultset.getInt("valor"));
+                // Lê o valor da coluna "status" da linha atual (retorna texto)
+                produto.setStatus(resultset.getString("status"));
+
+                // Adiciona o produto preenchido na lista
+                listaVendidos.add(produto);
+            }
+
+        } catch (SQLException erro) {
+            JOptionPane.showMessageDialog(null, "Erro ao listar vendidos: " + erro.getMessage());
+        }
+
+        // Retorna a lista completa para quem chamou o método
+        return listaVendidos;
+
     }
 
 }
