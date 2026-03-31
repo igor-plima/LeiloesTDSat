@@ -8,7 +8,8 @@
  * @author IgorP
  */
 
-public class ProdutosDTO {
+//
+public class ProdutosDTO { // DTO significa Data Transfer Object, não faz nada com o banco — só carrega informações de um lugar para outro.
     
     private Integer id;
     private String nome;

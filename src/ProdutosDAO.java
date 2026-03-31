@@ -16,10 +16,11 @@ import java.util.ArrayList;
 
 public class ProdutosDAO {
 
-    Connection conn;
-    PreparedStatement prep;
-    ResultSet resultset;
-    ArrayList<ProdutosDTO> listagem = new ArrayList<>();
+    // // Variáveis que serão usadas nos métodos para comunicação com o banco
+    Connection conn; // Representa a conexão com o banco
+    PreparedStatement prep; // Representa o comando SQL que vamos executar
+    ResultSet resultset; // Representa o resultado de um SELECT
+    ArrayList<ProdutosDTO> listagem = new ArrayList<>(); // Lista de produtos
 
     public void cadastrarProduto(ProdutosDTO produto) {
         

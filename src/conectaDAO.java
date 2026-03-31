@@ -17,6 +17,12 @@ import javax.swing.JOptionPane;
  */
 public class conectaDAO {
     
+    /*Método responsável pela conexão com o banco de dados
+    Ele retorna um objeto do tipo Connection, que representa
+      essa conexão aberta. Os outros DAOs vão usar essa conexão
+      para executar os comandos SQL (INSERT, SELECT, etc).
+    */
+    
     public Connection connectDB(){
         Connection conn = null;
         
